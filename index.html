@@ -362,7 +362,12 @@
 
     // ===== TO'LOV QILDIM =====
     function donePay() {
-        tg.sendData(JSON.stringify({ action: 'tolov_qilindi', summa: summa, tolov_id: tolovId }));
+        try {
+            tg.sendData(JSON.stringify({ action: 'tolov_qilindi', summa: summa, tolov_id: tolovId }));
+        } catch(e) {
+            console.log('sendData error:', e);
+        }
+        tg.close();
     }
 </script>
 </body>
