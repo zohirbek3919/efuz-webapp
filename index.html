@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To'lov</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .amount-section {
+            text-align: center;
+        }
+
+        .amount-label {
+            font-size: 13px;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .amount {
+            font-size: 42px;
+            font-weight: 800;
+            color: #4ade80;
+            text-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
+        }
+
+        .amount span {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .card {
+            width: 100%;
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #1d4ed8 100%);
+            border-radius: 20px;
+            padding: 28px 24px;
+            box-shadow: 0 20px 60px rgba(37, 99, 235, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .chip {
+            width: 40px;
+            height: 30px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-radius: 6px;
+        }
+
+        .bank-name {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .card-number {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            margin-bottom: 24px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .card-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .card-footer-label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-holder {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .timer-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px 32px;
+            text-align: center;
+        }
+
+        .timer-label {
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .timer {
+            font-size: 32px;
+            font-weight: 800;
+            color: #f59e0b;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+        }
+
+        .timer.danger {
+            color: #ef4444;
+            text-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-copy {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            border-radius: 16px;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.35);
+        }
+
+        .btn-copy:active {
+            transform: scale(0.97);
+        }
+
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            box-shadow: none;
+        }
+
+        .btn-done {
+            width: 100%;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            color: #ccc;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-done:active {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .watermark {
+            font-size: 13px;
+            color: #555;
+            margin-top: 4px;
+        }
+
+        .copy-icon {
+            font-size: 20px;
+        }
+
+        .expired {
+            text-align: center;
+            padding: 20px;
+            color: #ef4444;
+            font-size: 18px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="amount-section">
+            <div class="amount-label">To'lanishi kerak bo'lgan summa</div>
+            <div class="amount" id="amount">5 000 <span>so'm</span></div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="chip"></div>
+                <div class="bank-name" id="bankName">UZCARD</div>
+            </div>
+            <div class="card-number" id="cardNumber">0000 0000 0000 0000</div>
+            <div class="card-footer">
+                <div class="card-footer-label">Karta egasi</div>
+                <div class="card-holder" id="cardHolder">FULL NAME</div>
+            </div>
+        </div>
+
+        <div class="timer-section">
+            <div class="timer-label">To'lov uchun vaqt</div>
+            <div class="timer" id="timer">05:00</div>
+        </div>
+
+        <button class="btn-copy" id="copyBtn" onclick="copyCard()">
+            <span class="copy-icon">⧉</span>
+            Kartani Nusxalash
+        </button>
+
+        <button class="btn-done" onclick="donePay()">
+            To'lovni amalga oshirdim
+        </button>
+
+        <div class="watermark">@efpageshopbot</div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        // URL dan ma'lumotlarni olish
+        const urlParams = new URLSearchParams(window.location.search);
+        const rawData = urlParams.get('data') || '';
+        const parts = rawData.split('|');
+
+        const summa = parts[0] || '5000';
+        const kartaRaqam = parts[1] || '0000000000000000';
+        const kartaEgasi = parts[2] || 'FULL NAME';
+        const kartaBank = parts[3] || 'UZCARD';
+
+        // Ma'lumotlarni ko'rsatish
+        document.getElementById('amount').innerHTML = 
+            parseInt(summa).toLocaleString('uz-UZ') + ' <span>so\'m</span>';
+
+        // Karta raqamini formatlash
+        const formatted = kartaRaqam.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim();
+        document.getElementById('cardNumber').textContent = formatted;
+        document.getElementById('cardHolder').textContent = kartaEgasi;
+        document.getElementById('bankName').textContent = kartaBank.includes('Agro') ? 'AGROBANK' : kartaBank.toUpperCase();
+
+        // Timer (5 daqiqa)
+        let timeLeft = 5 * 60;
+        const timerEl = document.getElementById('timer');
+
+        const timerInterval = setInterval(() => {
+            timeLeft--;
+            const mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            const secs = (timeLeft % 60).toString().padStart(2, '0');
+            timerEl.textContent = `${mins}:${secs}`;
+
+            if (timeLeft <= 60) {
+                timerEl.classList.add('danger');
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timerEl.textContent = '00:00';
+                document.querySelector('.container').innerHTML = 
+                    '<div class="expired">⏰ Vaqt tugadi!<br><br>Qaytadan urinib ko\'ring yoki chek yuboring.</div>';
+            }
+        }, 1000);
+
+        // Karta nusxalash
+        function copyCard() {
+            const cleanNumber = kartaRaqam.replace(/\s/g, '');
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(cleanNumber).then(() => {
+                    showCopied();
+                });
+            } else {
+                const el = document.createElement('textarea');
+                el.value = cleanNumber;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+                showCopied();
+            }
+        }
+
+        function showCopied() {
+            const btn = document.getElementById('copyBtn');
+            btn.textContent = '✅ Nusxalandi!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerHTML = '<span class="copy-icon">⧉</span> Kartani Nusxalash';
+                btn.classList.remove('copied');
+            }, 2000);
+        }
+
+        // To'lov qildim
+        function donePay() {
+            tg.sendData(JSON.stringify({ action: 'tolov_qilindi', summa: summa }));
+            tg.close();
+        }
+    </script>
+</body>
+</html>
