@@ -263,6 +263,7 @@
     const karta1Egasi  = decodeURIComponent(parts[2] || 'MAXAMMADALIYEV ZOXIRBEK');
     const karta1Bank   = decodeURIComponent(parts[3] || 'Agro Bank');
     const karta1Telefon = decodeURIComponent(parts[4] || '+998888570067');
+    const tolovId    = parts[5] || '0';
 
     // 1-karta — Uzcard (statik)
     const karta2Raqam   = '5614681018172167';
@@ -361,7 +362,7 @@
 
     // ===== TO'LOV QILDIM =====
     function donePay() {
-        tg.sendData(JSON.stringify({ action: 'tolov_qilindi', summa: summa }));
+        tg.sendData(JSON.stringify({ action: 'tolov_qilindi', summa: summa, tolov_id: tolovId }));
     }
 </script>
 </body>
