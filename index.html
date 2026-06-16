@@ -3,348 +3,367 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To'lov</title>
+    <title>EfuzOnlyShop | Bot</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            background: #1a1a1a;
             min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
             padding: 20px;
         }
 
         .container {
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 20px;
+            gap: 0;
         }
 
-        .amount-section {
-            text-align: center;
+        /* ===== TOP BUTTONS ===== */
+        .top-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 0;
         }
 
-        .amount-label {
-            font-size: 13px;
-            color: #aaa;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .amount {
-            font-size: 42px;
-            font-weight: 800;
-            color: #4ade80;
-            text-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
-        }
-
-        .amount span {
-            font-size: 22px;
-            font-weight: 600;
-        }
-
-        .card {
-            width: 100%;
-            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #1d4ed8 100%);
-            border-radius: 20px;
-            padding: 28px 24px;
-            box-shadow: 0 20px 60px rgba(37, 99, 235, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 200px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-        }
-
-        .card::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -10%;
-            width: 150px;
-            height: 150px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-        }
-
-        .chip {
-            width: 40px;
-            height: 30px;
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            border-radius: 6px;
-        }
-
-        .bank-name {
-            font-size: 18px;
+        .top-btn {
+            padding: 18px 12px;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
             font-weight: 700;
-            letter-spacing: 2px;
+            cursor: pointer;
             color: #fff;
+            line-height: 1.3;
+            transition: opacity 0.15s, transform 0.15s;
+        }
+
+        .top-btn:active {
+            opacity: 0.85;
+            transform: scale(0.97);
+        }
+
+        .btn-uzcard {
+            background: linear-gradient(135deg, #4f8ef7 0%, #7b5ef8 100%);
+        }
+
+        .btn-humo {
+            background: linear-gradient(135deg, #e96cf0 0%, #b94ef0 100%);
+        }
+
+        /* ===== CARD SECTION ===== */
+        .card-section {
+            background: #2a2a2a;
+            border-radius: 20px;
+            padding: 24px 20px;
+            margin-top: 16px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        /* Single card block */
+        .card-block {
+            background: #1a1a1a;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 14px;
         }
 
         .card-number {
             font-size: 22px;
-            font-weight: 600;
-            letter-spacing: 4px;
-            margin-bottom: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 14px;
             font-family: 'Courier New', monospace;
         }
 
-        .card-footer {
+        .card-info {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 6px;
+            margin-bottom: 16px;
         }
 
-        .card-footer-label {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.6);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .card-holder {
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .timer-section {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 16px 32px;
+        .card-info-row {
+            font-size: 14px;
+            color: #ccc;
             text-align: center;
         }
 
-        .timer-label {
-            font-size: 11px;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-
-        .timer {
-            font-size: 32px;
-            font-weight: 800;
-            color: #f59e0b;
-            font-family: 'Courier New', monospace;
-            text-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
-        }
-
-        .timer.danger {
-            color: #ef4444;
-            text-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
-        }
-
-        .btn-copy {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            border: none;
-            border-radius: 16px;
+        .card-info-row b {
             color: #fff;
-            font-size: 17px;
+        }
+
+        .copy-btn {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #7b5ef8, #b94ef0);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            transition: all 0.2s ease;
-            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.35);
+            gap: 8px;
+            transition: opacity 0.15s, transform 0.15s;
         }
 
-        .btn-copy:active {
+        .copy-btn:active {
+            opacity: 0.85;
             transform: scale(0.97);
         }
 
-        .btn-copy.copied {
-            background: linear-gradient(135deg, #6b7280, #4b5563);
-            box-shadow: none;
+        .copy-btn.copied {
+            background: #3a3a3a;
         }
 
-        .btn-done {
+        /* ===== AMOUNT ===== */
+        .amount-section {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .amount-text {
+            font-size: 26px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .amount-icon {
+            font-size: 26px;
+            margin-right: 6px;
+        }
+
+        /* ===== TIMER ===== */
+        .timer-section {
+            text-align: center;
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+
+        .timer {
+            font-size: 38px;
+            font-weight: 800;
+            letter-spacing: 6px;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+
+        .timer.danger {
+            color: #ef4444;
+        }
+
+        .timer-hint {
+            font-size: 13px;
+            color: #888;
+            margin-top: 6px;
+        }
+
+        /* ===== DONE BUTTON ===== */
+        .done-btn {
             width: 100%;
             padding: 16px;
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
+            background: #2a2a2a;
+            border: 1.5px solid #3a3a3a;
+            border-radius: 14px;
             color: #ccc;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
+            margin-top: 16px;
+            transition: background 0.15s;
         }
 
-        .btn-done:active {
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .watermark {
-            font-size: 13px;
-            color: #555;
-            margin-top: 4px;
-        }
-
-        .copy-icon {
-            font-size: 20px;
-        }
-
-        .expired {
-            text-align: center;
-            padding: 20px;
-            color: #ef4444;
-            font-size: 18px;
-            font-weight: 700;
+        .done-btn:active {
+            background: #333;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="amount-section">
-            <div class="amount-label">To'lanishi kerak bo'lgan summa</div>
-            <div class="amount" id="amount">5 000 <span>so'm</span></div>
-        </div>
+<div class="container">
 
-        <div class="card">
-            <div class="card-header">
-                <div class="chip"></div>
-                <div class="bank-name" id="bankName">UZCARD</div>
-            </div>
-            <div class="card-number" id="cardNumber">0000 0000 0000 0000</div>
-            <div class="card-footer">
-                <div class="card-footer-label">Karta egasi</div>
-                <div class="card-holder" id="cardHolder">FULL NAME</div>
-            </div>
-        </div>
-
-        <div class="timer-section">
-            <div class="timer-label">To'lov uchun vaqt</div>
-            <div class="timer" id="timer">05:00</div>
-        </div>
-
-        <button class="btn-copy" id="copyBtn" onclick="copyCard()">
-            <span class="copy-icon">⧉</span>
-            Kartani Nusxalash
+    <!-- TOP BUTTONS -->
+    <div class="top-buttons">
+        <button class="top-btn btn-uzcard" onclick="switchCard(0)">
+            Uzcardga<br>yuborish
         </button>
-
-        <button class="btn-done" onclick="donePay()">
-            To'lovni amalga oshirdim
+        <button class="top-btn btn-humo" onclick="switchCard(1)">
+            Humoga<br>yuborish
         </button>
-
-        <div class="watermark">@efpageshopbot</div>
     </div>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
+    <!-- CARD SECTION -->
+    <div class="card-section">
+        <div class="card-title">💳 Kartaga to'lov</div>
 
-        // URL dan ma'lumotlarni olish
-        const urlParams = new URLSearchParams(window.location.search);
-        const rawData = urlParams.get('data') || '';
-        const parts = rawData.split('|');
+        <div class="card-block">
+            <div class="card-number" id="cardNumber">0000 0000 0000 0000</div>
+            <div class="card-info">
+                <div class="card-info-row">🏦 Bank: <b id="bankName">-</b></div>
+                <div class="card-info-row">📞 Ulangan raqam: <b id="cardPhone">-</b></div>
+                <div class="card-info-row">👤 Egasi: <b id="cardHolder">-</b></div>
+            </div>
+            <button class="copy-btn" id="copyBtn" onclick="copyCard()">
+                📋 Nusxalash
+            </button>
+        </div>
 
-        const summa = parts[0] || '5000';
-        const kartaRaqam = parts[1] || '0000000000000000';
-        const kartaEgasi = parts[2] || 'FULL NAME';
-        const kartaBank = parts[3] || 'UZCARD';
+        <!-- AMOUNT -->
+        <div class="amount-section">
+            <span class="amount-text"><span class="amount-icon">💵</span>Miqdor: <span id="amountText">5 000</span> so'm</span>
+        </div>
 
-        // Ma'lumotlarni ko'rsatish
-        document.getElementById('amount').innerHTML = 
-            parseInt(summa).toLocaleString('uz-UZ') + ' <span>so\'m</span>';
+        <!-- TIMER -->
+        <div class="timer-section">
+            <div class="timer" id="timer">05:00</div>
+            <div class="timer-hint">⏳ O'tkazma 5 daqiqa ichida amalga oshirilmasa tasdiqlanmaydi</div>
+        </div>
+    </div>
 
-        // Karta raqamini formatlash
-        const formatted = kartaRaqam.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim();
-        document.getElementById('cardNumber').textContent = formatted;
-        document.getElementById('cardHolder').textContent = kartaEgasi;
-        document.getElementById('bankName').textContent = kartaBank.includes('Agro') ? 'AGROBANK' : kartaBank.toUpperCase();
+    <!-- DONE BUTTON -->
+    <button class="done-btn" onclick="donePay()">
+        To'lovni amalga oshirdim ✅
+    </button>
 
-        // Timer (5 daqiqa)
-        let timeLeft = 5 * 60;
-        const timerEl = document.getElementById('timer');
+</div>
 
-        const timerInterval = setInterval(() => {
-            timeLeft--;
-            const mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-            const secs = (timeLeft % 60).toString().padStart(2, '0');
-            timerEl.textContent = `${mins}:${secs}`;
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
 
-            if (timeLeft <= 60) {
-                timerEl.classList.add('danger');
-            }
+    // URL parametrlardan ma'lumot olish
+    const urlParams = new URLSearchParams(window.location.search);
+    const rawData = urlParams.get('data') || '';
+    const parts = rawData.split('|');
 
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                timerEl.textContent = '00:00';
-                document.querySelector('.container').innerHTML = 
-                    '<div class="expired">⏰ Vaqt tugadi!<br><br>Qaytadan urinib ko\'ring yoki chek yuboring.</div>';
-            }
-        }, 1000);
+    const summa      = parts[0] || '5000';
+    const karta1Raqam  = (parts[1] || '4073420084081367').replace(/\s/g, '');
+    const karta1Egasi  = decodeURIComponent(parts[2] || 'MAXAMMADALIYEV ZOXIRBEK');
+    const karta1Bank   = decodeURIComponent(parts[3] || 'Agro Bank');
+    const karta1Telefon = decodeURIComponent(parts[4] || '+998888570067');
 
-        // Karta nusxalash
-        function copyCard() {
-            const cleanNumber = kartaRaqam.replace(/\s/g, '');
-            
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(cleanNumber).then(() => {
-                    showCopied();
-                });
-            } else {
-                const el = document.createElement('textarea');
-                el.value = cleanNumber;
-                document.body.appendChild(el);
-                el.select();
-                document.execCommand('copy');
-                document.body.removeChild(el);
-                showCopied();
-            }
-        }
+    // 1-karta — Uzcard (statik)
+    const karta2Raqam   = '5614681018172167';
+    const karta2Egasi   = 'UCH MAXAMMADALIYEV ZOHIRBEK';
+    const karta2Bank    = 'Universal Bank';
+    const karta2Telefon = '+998905093919';
 
-        function showCopied() {
-            const btn = document.getElementById('copyBtn');
+    const cards = [
+        { raqam: karta2Raqam, egasi: karta2Egasi, bank: karta2Bank, telefon: karta2Telefon },  // Uzcard
+        { raqam: karta1Raqam, egasi: karta1Egasi, bank: karta1Bank, telefon: karta1Telefon },  // Humo
+    ];
+
+    let currentCard = 0;
+
+    function formatCardNumber(num) {
+        return num.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim();
+    }
+
+    function renderCard(index) {
+        const c = cards[index];
+        document.getElementById('cardNumber').textContent = formatCardNumber(c.raqam);
+        document.getElementById('bankName').textContent   = c.bank;
+        document.getElementById('cardPhone').textContent  = c.telefon;
+        document.getElementById('cardHolder').textContent = c.egasi;
+        currentCard = index;
+
+        // Reset copy button
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = '📋 Nusxalash';
+        btn.classList.remove('copied');
+    }
+
+    function switchCard(index) {
+        renderCard(index);
+    }
+
+    // Amount
+    document.getElementById('amountText').textContent =
+        parseInt(summa).toLocaleString('ru-RU');
+
+    // Initial render
+    renderCard(0);
+
+    // ===== COPY =====
+    function copyCard() {
+        const num = cards[currentCard].raqam.replace(/\s/g, '');
+        const btn = document.getElementById('copyBtn');
+
+        const doCopy = () => {
             btn.textContent = '✅ Nusxalandi!';
             btn.classList.add('copied');
             setTimeout(() => {
-                btn.innerHTML = '<span class="copy-icon">⧉</span> Kartani Nusxalash';
+                btn.textContent = '📋 Nusxalash';
                 btn.classList.remove('copied');
             }, 2000);
-        }
+        };
 
-        // To'lov qildim
-        function donePay() {
-            tg.sendData(JSON.stringify({ action: 'tolov_qilindi', summa: summa }));
-            tg.close();
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(num).then(doCopy).catch(() => {
+                fallbackCopy(num);
+                doCopy();
+            });
+        } else {
+            fallbackCopy(num);
+            doCopy();
         }
-    </script>
+    }
+
+    function fallbackCopy(text) {
+        const el = document.createElement('textarea');
+        el.value = text;
+        el.style.position = 'fixed';
+        el.style.opacity = '0';
+        document.body.appendChild(el);
+        el.focus();
+        el.select();
+        try { document.execCommand('copy'); } catch(e) {}
+        document.body.removeChild(el);
+    }
+
+    // ===== TIMER =====
+    let timeLeft = 5 * 60;
+    const timerEl = document.getElementById('timer');
+
+    const timerInterval = setInterval(() => {
+        timeLeft--;
+        const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+        const s = (timeLeft % 60).toString().padStart(2, '0');
+        timerEl.textContent = `${m}:${s}`;
+        if (timeLeft <= 60) timerEl.classList.add('danger');
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            timerEl.textContent = '00:00';
+        }
+    }, 1000);
+
+    // ===== TO'LOV QILDIM =====
+    function donePay() {
+        tg.sendData(JSON.stringify({ action: 'tolov_qilindi', summa: summa }));
+        tg.close();
+    }
+</script>
 </body>
 </html>
