@@ -3,120 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EfuzOnlyShop | Bot</title>
+    <title>EfuzOnly | To'lov</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        :root {
+            --bg: #0f0f13;
+            --card-bg: #1c1c24;
+            --card2-bg: #23232e;
+            --accent: #7c5cf8;
+            --accent2: #a855f7;
+            --green: #22c55e;
+            --red: #ef4444;
+            --text: #f1f1f1;
+            --subtext: #8b8b9e;
+            --border: #2e2e3e;
+        }
+
         body {
-            background: #1a1a1a;
+            background: var(--bg);
             min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: var(--text);
+            padding: 16px;
+            padding-bottom: 32px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 420px;
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
-
-        /* ===== TOP BUTTONS ===== */
-        .top-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-bottom: 0;
+            margin-bottom: 20px;
+            padding-top: 4px;
         }
 
-        .top-btn {
-            padding: 18px 12px;
-            border: none;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
+        .header-logo {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #e879f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== AMOUNT CARD ===== */
+        .amount-card {
+            background: linear-gradient(135deg, #1e1b4b, #2d1b69);
+            border: 1px solid #3730a3;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 14px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .amount-card::before {
+            content: '';
+            position: absolute;
+            top: -30px; right: -30px;
+            width: 100px; height: 100px;
+            background: rgba(124, 92, 248, 0.15);
+            border-radius: 50%;
+        }
+
+        .amount-label {
+            font-size: 13px;
+            color: #a78bfa;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .amount-value {
+            font-size: 32px;
+            font-weight: 900;
             color: #fff;
-            line-height: 1.3;
-            transition: opacity 0.15s, transform 0.15s;
+            letter-spacing: 1px;
         }
 
-        .top-btn:active {
-            opacity: 0.85;
-            transform: scale(0.97);
+        .amount-currency {
+            font-size: 16px;
+            color: #a78bfa;
+            font-weight: 600;
+            margin-left: 4px;
         }
 
-        .btn-uzcard {
-            background: linear-gradient(135deg, #4f8ef7 0%, #7b5ef8 100%);
+        /* ===== TIMER ===== */
+        .timer-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
         }
 
-        .btn-humo {
-            background: linear-gradient(135deg, #e96cf0 0%, #b94ef0 100%);
+        .timer-badge {
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 6px 14px;
+            font-size: 22px;
+            font-weight: 800;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 3px;
+            color: #fff;
+            transition: color 0.3s;
+        }
+
+        .timer-badge.danger {
+            color: var(--red);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .timer-hint {
+            font-size: 12px;
+            color: var(--subtext);
+            margin-top: 6px;
+            text-align: center;
         }
 
         /* ===== CARD SECTION ===== */
-        .card-section {
-            background: #2a2a2a;
-            border-radius: 20px;
-            padding: 24px 20px;
-            margin-top: 16px;
-        }
-
-        .card-title {
-            font-size: 20px;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 20px;
-            color: #fff;
-        }
-
-        /* Single card block */
-        .card-block {
-            background: #1a1a1a;
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 14px;
-        }
-
-        .card-number {
-            font-size: 22px;
+        .section-label {
+            font-size: 12px;
             font-weight: 700;
-            letter-spacing: 2px;
-            text-align: center;
-            color: #fff;
-            margin-bottom: 14px;
-            font-family: 'Courier New', monospace;
+            color: var(--subtext);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            margin-top: 18px;
+            padding-left: 4px;
         }
 
-        .card-info {
+        .card-block {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 10px;
+        }
+
+        .card-chip {
             display: flex;
-            flex-direction: column;
-            gap: 6px;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 16px;
         }
 
-        .card-info-row {
-            font-size: 14px;
-            color: #ccc;
-            text-align: center;
+        .card-chip-icon {
+            width: 36px;
+            height: 28px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
         }
 
-        .card-info-row b {
+        .card-type-badge {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--subtext);
+            background: var(--card2-bg);
+            padding: 4px 10px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-number {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 3px;
             color: #fff;
+            text-align: center;
+            margin-bottom: 16px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .card-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .card-detail-item {
+            background: var(--card2-bg);
+            border-radius: 12px;
+            padding: 10px 12px;
+        }
+
+        .card-detail-label {
+            font-size: 11px;
+            color: var(--subtext);
+            margin-bottom: 3px;
+        }
+
+        .card-detail-value {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-detail-item.full {
+            grid-column: 1 / -1;
         }
 
         .copy-btn {
             width: 100%;
-            padding: 13px;
-            background: linear-gradient(135deg, #7b5ef8, #b94ef0);
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             color: #fff;
             font-size: 15px;
             font-weight: 700;
@@ -125,218 +242,300 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: opacity 0.15s, transform 0.15s;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .copy-btn:active {
-            opacity: 0.85;
-            transform: scale(0.97);
+        .copy-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0);
+            transition: background 0.15s;
+        }
+
+        .copy-btn:active::after {
+            background: rgba(255,255,255,0.1);
         }
 
         .copy-btn.copied {
-            background: #3a3a3a;
+            background: linear-gradient(135deg, #166534, #15803d);
         }
 
-        /* ===== AMOUNT ===== */
-        .amount-section {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 10px;
+        /* ===== STEPS ===== */
+        .steps-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 18px 20px;
+            margin-top: 4px;
         }
 
-        .amount-text {
-            font-size: 26px;
-            font-weight: 800;
-            color: #fff;
-        }
-
-        .amount-icon {
-            font-size: 26px;
-            margin-right: 6px;
-        }
-
-        /* ===== TIMER ===== */
-        .timer-section {
-            text-align: center;
-            margin-top: 6px;
-            margin-bottom: 6px;
-        }
-
-        .timer {
-            font-size: 38px;
-            font-weight: 800;
-            letter-spacing: 6px;
-            color: #fff;
-            font-family: 'Courier New', monospace;
-        }
-
-        .timer.danger {
-            color: #ef4444;
-        }
-
-        .timer-hint {
+        .steps-title {
             font-size: 13px;
-            color: #888;
-            margin-top: 6px;
+            font-weight: 700;
+            color: var(--subtext);
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .step-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-num {
+            min-width: 26px;
+            height: 26px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            font-size: 13px;
+            color: var(--subtext);
+            line-height: 1.5;
+            padding-top: 4px;
+        }
+
+        .step-text b {
+            color: var(--text);
         }
 
         /* ===== DONE BUTTON ===== */
         .done-btn {
             width: 100%;
-            padding: 16px;
-            background: #2a2a2a;
-            border: 1.5px solid #3a3a3a;
-            border-radius: 14px;
-            color: #ccc;
+            padding: 17px;
+            background: linear-gradient(135deg, #14532d, #166534);
+            border: 1.5px solid #16a34a;
+            border-radius: 16px;
+            color: #ffffff;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             margin-top: 16px;
-            transition: background 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
         }
 
         .done-btn:active {
-            background: #333;
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+
+        /* ===== WARNING ===== */
+        .warning-box {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .warning-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .warning-text {
+            font-size: 12px;
+            color: #fca5a5;
+            line-height: 1.5;
+        }
+
+        /* pulse animation for timer */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .timer-badge.danger {
+            animation: pulse 1s infinite;
         }
     </style>
 </head>
 <body>
-<div class="container">
 
-    <!-- TOP BUTTONS -->
-    <div class="top-buttons">
-        <button class="top-btn btn-uzcard" onclick="switchCard(0)">
-            Uzcardga<br>yuborish
-        </button>
-        <button class="top-btn btn-humo" onclick="switchCard(1)">
-            Humoga<br>yuborish
-        </button>
-    </div>
-
-    <!-- CARD SECTION -->
-    <div class="card-section">
-        <div class="card-title">💳 Kartaga to'lov</div>
-
-        <div class="card-block">
-            <div class="card-number" id="cardNumber">0000 0000 0000 0000</div>
-            <div class="card-info">
-                <div class="card-info-row">🏦 Bank: <b id="bankName">-</b></div>
-                <div class="card-info-row">📞 Ulangan raqam: <b id="cardPhone">-</b></div>
-                <div class="card-info-row">👤 Egasi: <b id="cardHolder">-</b></div>
-            </div>
-            <button class="copy-btn" id="copyBtn" onclick="copyCard()">
-                📋 Nusxalash
-            </button>
-        </div>
-
-        <!-- AMOUNT -->
-        <div class="amount-section">
-            <span class="amount-text"><span class="amount-icon">💵</span>Miqdor: <span id="amountText">5 000</span> so'm</span>
-        </div>
-
-        <!-- TIMER -->
-        <div class="timer-section">
-            <div class="timer" id="timer">05:00</div>
-            <div class="timer-hint">⏳ O'tkazma 5 daqiqa ichida amalga oshirilmasa tasdiqlanmaydi</div>
-        </div>
-    </div>
-
-    <!-- DONE BUTTON -->
-    <button class="done-btn" onclick="donePay()">
-        To'lovni amalga oshirdim ✅
-    </button>
-
+<!-- HEADER -->
+<div class="header">
+    <div class="header-logo">🛍</div>
+    <div class="header-title">EFUZ ONLY SHOP</div>
 </div>
+
+<!-- AMOUNT + TIMER -->
+<div class="amount-card">
+    <div class="amount-label">To'lov miqdori</div>
+    <div>
+        <span class="amount-value" id="amountText">5 000</span>
+        <span class="amount-currency">so'm</span>
+    </div>
+    <div class="timer-row">
+        <span>⏱</span>
+        <div class="timer-badge" id="timer">05:00</div>
+    </div>
+    <div class="timer-hint">Vaqt tugashidan oldin to'lovni amalga oshiring</div>
+</div>
+
+<!-- CARD -->
+<div class="section-label">💳 To'lov kartasi</div>
+<div class="card-block">
+    <div class="card-chip">
+        <div class="card-chip-icon">⬡</div>
+        <div class="card-type-badge" id="cardType">Humo</div>
+    </div>
+
+    <div class="card-number" id="cardNumber">0000 0000 0000 0000</div>
+
+    <div class="card-details">
+        <div class="card-detail-item">
+            <div class="card-detail-label">🏦 Bank</div>
+            <div class="card-detail-value" id="bankName">—</div>
+        </div>
+        <div class="card-detail-item">
+            <div class="card-detail-label">📞 Telefon</div>
+            <div class="card-detail-value" id="cardPhone">—</div>
+        </div>
+        <div class="card-detail-item full">
+            <div class="card-detail-label">👤 Egasi</div>
+            <div class="card-detail-value" id="cardHolder">—</div>
+        </div>
+    </div>
+
+    <button class="copy-btn" id="copyBtn" onclick="copyCard()">
+        <span id="copyIcon">📋</span>
+        <span id="copyText">Karta raqamini nusxalash</span>
+    </button>
+</div>
+
+<!-- STEPS -->
+<div class="section-label">📋 Qanday to'lash kerak?</div>
+<div class="steps-card">
+    <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-text">Yuqoridagi <b>karta raqamini nusxalang</b></div>
+    </div>
+    <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-text">Bank ilovangizni oching va ko'rsatilgan <b>summa</b>ni o'tkazing</div>
+    </div>
+    <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-text">To'lov screenshotini oling</div>
+    </div>
+    <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-text">Quyidagi tugmani bosib <b>screenshotni yuboring</b></div>
+    </div>
+</div>
+
+<!-- WARNING -->
+<div class="warning-box">
+    <div class="warning-icon">⚠️</div>
+    <div class="warning-text">
+        To'lov <b>5 daqiqa ichida</b> amalga oshirilmasa tasdiqlanmaydi.
+    </div>
+</div>
+
+<!-- DONE BUTTON -->
+<button class="done-btn" onclick="donePay()">
+    ✅ To'lovni amalga oshirdim
+</button>
 
 <script>
     const tg = window.Telegram.WebApp;
     tg.ready();
     tg.expand();
+    tg.setHeaderColor('#0f0f13');
+    tg.setBackgroundColor('#0f0f13');
 
-    // URL parametrlardan ma'lumot olish
+    // URL dan ma'lumot olish
     const urlParams = new URLSearchParams(window.location.search);
     const rawData = urlParams.get('data') || '';
     const parts = rawData.split('|');
 
-    const summa      = parts[0] || '5000';
-    const karta1Raqam  = (parts[1] || '4073420084081367').replace(/\s/g, '');
-    const karta1Egasi  = decodeURIComponent(parts[2] || 'MAXAMMADALIYEV ZOXIRBEK');
-    const karta1Bank   = decodeURIComponent(parts[3] || 'Agro Bank');
-    const karta1Telefon = decodeURIComponent(parts[4] || '+998888570067');
-    const tolovId    = parts[5] || '0';
+    const summa       = parts[0] || '5000';
+    const kartaRaqam  = (parts[1] || '4073420084081367').replace(/\s/g, '');
+    const kartaEgasi  = decodeURIComponent(parts[2] || 'MAXAMMADALIYEV ZOXIRBEK');
+    const kartaBank   = decodeURIComponent(parts[3] || 'Agro Bank');
+    const kartaTelefon = decodeURIComponent(parts[4] || '+998888570067');
+    const tolovId     = parts[5] || '0';
 
-    // 1-karta — Uzcard (statik)
-    const karta2Raqam   = '5614681018172167';
-    const karta2Egasi   = 'UCH MAXAMMADALIYEV ZOHIRBEK';
-    const karta2Bank    = 'Universal Bank';
-    const karta2Telefon = '+998905093919';
+    // Karta turini aniqlash (Humo yoki Uzcard)
+    function detectCardType(num) {
+        const n = num.replace(/\s/g, '');
+        if (n.startsWith('9860')) return 'Humo';
+        if (n.startsWith('8600')) return 'Uzcard';
+        if (n.startsWith('4') || n.startsWith('5')) return 'Visa/MC';
+        return 'Karta';
+    }
 
-    const cards = [
-        { raqam: karta2Raqam, egasi: karta2Egasi, bank: karta2Bank, telefon: karta2Telefon },  // Uzcard
-        { raqam: karta1Raqam, egasi: karta1Egasi, bank: karta1Bank, telefon: karta1Telefon },  // Humo
-    ];
-
-    let currentCard = 0;
-
-    function formatCardNumber(num) {
+    // Karta raqamini formatlash
+    function formatCard(num) {
         return num.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim();
     }
 
-    function renderCard(index) {
-        const c = cards[index];
-        document.getElementById('cardNumber').textContent = formatCardNumber(c.raqam);
-        document.getElementById('bankName').textContent   = c.bank;
-        document.getElementById('cardPhone').textContent  = c.telefon;
-        document.getElementById('cardHolder').textContent = c.egasi;
-        currentCard = index;
+    // Ma'lumotlarni render qilish
+    document.getElementById('cardNumber').textContent = formatCard(kartaRaqam);
+    document.getElementById('bankName').textContent = kartaBank;
+    document.getElementById('cardPhone').textContent = kartaTelefon;
+    document.getElementById('cardHolder').textContent = kartaEgasi;
+    document.getElementById('cardType').textContent = detectCardType(kartaRaqam);
+    document.getElementById('amountText').textContent = parseInt(summa).toLocaleString('ru-RU');
 
-        // Reset copy button
-        const btn = document.getElementById('copyBtn');
-        btn.textContent = '📋 Nusxalash';
-        btn.classList.remove('copied');
-    }
-
-    function switchCard(index) {
-        renderCard(index);
-    }
-
-    // Amount
-    document.getElementById('amountText').textContent =
-        parseInt(summa).toLocaleString('ru-RU');
-
-    // Initial render
-    renderCard(0);
-
-    // ===== COPY =====
+    // ===== NUSXALASH =====
     function copyCard() {
-        const num = cards[currentCard].raqam.replace(/\s/g, '');
+        const num = kartaRaqam.replace(/\s/g, '');
         const btn = document.getElementById('copyBtn');
+        const icon = document.getElementById('copyIcon');
+        const text = document.getElementById('copyText');
 
-        const doCopy = () => {
-            btn.textContent = '✅ Nusxalandi!';
+        const onCopied = () => {
             btn.classList.add('copied');
+            icon.textContent = '✅';
+            text.textContent = 'Nusxalandi!';
             setTimeout(() => {
-                btn.textContent = '📋 Nusxalash';
                 btn.classList.remove('copied');
-            }, 2000);
+                icon.textContent = '📋';
+                text.textContent = 'Karta raqamini nusxalash';
+            }, 2500);
         };
 
         if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(num).then(doCopy).catch(() => {
+            navigator.clipboard.writeText(num).then(onCopied).catch(() => {
                 fallbackCopy(num);
-                doCopy();
+                onCopied();
             });
         } else {
             fallbackCopy(num);
-            doCopy();
+            onCopied();
         }
     }
 
     function fallbackCopy(text) {
         const el = document.createElement('textarea');
         el.value = text;
-        el.style.position = 'fixed';
-        el.style.opacity = '0';
+        el.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
         document.body.appendChild(el);
         el.focus();
         el.select();
@@ -348,14 +547,14 @@
     let timeLeft = 5 * 60;
     const timerEl = document.getElementById('timer');
 
-    const timerInterval = setInterval(() => {
+    const tick = setInterval(() => {
         timeLeft--;
         const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
         const s = (timeLeft % 60).toString().padStart(2, '0');
         timerEl.textContent = `${m}:${s}`;
         if (timeLeft <= 60) timerEl.classList.add('danger');
         if (timeLeft <= 0) {
-            clearInterval(timerInterval);
+            clearInterval(tick);
             timerEl.textContent = '00:00';
         }
     }, 1000);
@@ -363,7 +562,11 @@
     // ===== TO'LOV QILDIM =====
     function donePay() {
         try {
-            tg.sendData(JSON.stringify({ action: 'tolov_qilindi', summa: summa, tolov_id: tolovId }));
+            tg.sendData(JSON.stringify({
+                action: 'tolov_qilindi',
+                summa: summa,
+                tolov_id: tolovId
+            }));
         } catch(e) {
             console.log('sendData error:', e);
         }
