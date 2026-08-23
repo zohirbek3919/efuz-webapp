@@ -483,10 +483,6 @@
     const shopName    = decodeURIComponent(urlParams.get('shop') || 'EFUZ ONLY SHOP');
 
     // Header nomini o'zgartirish
-    document.querySelector('.header-title').textContent = shopName;
-
-    // Shop nomini URL dan olish
-    const shopName = urlParams.get('shop') || 'EFUZ ONLY SHOP';
     document.getElementById('headerTitle').textContent = shopName;
 
     // Karta turini aniqlash (Humo yoki Uzcard)
